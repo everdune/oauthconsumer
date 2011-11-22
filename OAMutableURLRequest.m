@@ -57,7 +57,7 @@ signatureProvider:(id<OASignatureProviding>)aProvider {
 		}
 		
 		if (aRealm == nil) {
-			realm = @"";
+			realm = [[NSString alloc] initWithString:@""];
 		} else {
 			realm = [aRealm copy];
 		}
@@ -211,6 +211,7 @@ NSInteger normalize(id obj1, id obj2, void *context)
 {
     [consumer release];
 	[token release];
+	[realm release];
 	[signatureProvider release];
 	[timestamp release];
 	if (nonce) {
