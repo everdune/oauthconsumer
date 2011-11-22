@@ -93,6 +93,16 @@ signatureProvider:(id<OASignatureProviding>)aProvider
     return self;
 }
 
+- (void)setOAuthParameterName:(NSString*)parameterName withValue:(NSString*)parameterValue {
+    assert(parameterName && parameterValue);
+
+    if (extraOAuthParameters == nil) {
+        extraOAuthParameters = [[NSMutableDictionary alloc] init];
+    }
+
+    [extraOAuthParameters setObject:parameterValue forKey:parameterName];
+}
+
 - (void)prepare {
     // sign
 //	NSLog(@"Base string is: %@", [self _signatureBaseString]);
@@ -117,6 +127,10 @@ signatureProvider:(id<OASignatureProviding>)aProvider
 	[chunks addObject:[NSString stringWithFormat:@"oauth_nonce=\"%@\"", nonce]];
 	[chunks	addObject:@"oauth_version=\"1.0\""];
 	
+	for (NSString *k in extraOAuthParameters) {
+		[chunks addObject:[NSString stringWithFormat:@"%@=\"%@\"", [k encodedURLParameterString], [[extraOAuthParameters objectForKey:k] encodedURLParameterString]]];
+	}
+    
 	NSString *oauthHeader = [NSString stringWithFormat:@"OAuth %@", [chunks componentsJoinedByString:@", "]];
 	[chunks release];
 
@@ -217,6 +231,7 @@ NSInteger normalize(id obj1, id obj2, void *context)
 	if (nonce) {
 		CFRelease(nonce);
 	}
+	[extraOAuthParameters release];
 	[super dealloc];
 }
 
