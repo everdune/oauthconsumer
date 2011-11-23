@@ -64,6 +64,7 @@
 	{
         OAServiceTicket *ticket= [[OAServiceTicket alloc] initWithRequest:request
                                                                  response:nil
+                                                                     data:nil
                                                                didSucceed:NO];
         [delegate performSelector:didFailSelector
                        withObject:ticket
@@ -111,6 +112,7 @@
 {
 	OAServiceTicket *ticket= [[OAServiceTicket alloc] initWithRequest:request
 															 response:response
+                                                                 data:nil
 														   didSucceed:NO];
 	[delegate performSelector:didFailSelector
 				   withObject:ticket
@@ -123,6 +125,7 @@
 {
 	OAServiceTicket *ticket = [[OAServiceTicket alloc] initWithRequest:request
 															  response:response
+                                                                  data:nil
 															didSucceed:[(NSHTTPURLResponse *)response statusCode] < 400];
 	[delegate performSelector:didFinishSelector
 				   withObject:ticket
